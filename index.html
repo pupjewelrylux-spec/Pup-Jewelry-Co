@@ -10,8 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root{
-    --cream:#F6EFE2;
-    --cream-deep:#EEE4D3;
+    --cream:#F9F2E4;
+    --cream-deep:#F1E7D5;
     --ink:#12191A;
     --ink-soft:#4C5A59;
     --gold:#A9834F;
@@ -81,6 +81,13 @@
     gap:1rem 1.2rem; padding:1.5rem 0; border-bottom:1px solid var(--line);
   }
   section.category .product:first-of-type{ border-top:1px solid var(--line); }
+
+  .product-photo{
+    width:64px; height:64px; flex-shrink:0;
+    border-radius:4px; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .product-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
   .product-info{ flex:1 1 180px; }
   .product-info h3{
@@ -290,6 +297,7 @@
     <div class="cat-header"><h2>Personalised Pawrl Dog Collar</h2><div class="rule"></div></div>
 
     <div class="product" data-product="Pawrl Collar" data-variant="XSmall Dog" data-price="18">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
       <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">XSmall Dog</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name">
@@ -299,6 +307,7 @@
     </div>
 
     <div class="product" data-product="Pawrl Collar" data-variant="Small Dog" data-price="25">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
       <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Small Dog</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name">
@@ -308,6 +317,7 @@
     </div>
 
     <div class="product" data-product="Pawrl Collar" data-variant="Medium Dog" data-price="30">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
       <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Medium Dog</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name">
@@ -317,6 +327,7 @@
     </div>
 
     <div class="product" data-product="Pawrl Collar" data-variant="Large Dog" data-price="35">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
       <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Large Dog</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name">
@@ -329,6 +340,7 @@
   <section class="category" id="clip-on">
     <div class="cat-header"><h2>Personalised Clip-On Collar</h2><div class="rule"></div></div>
     <div class="product" data-product="Clip-On Collar" data-variant="One Size" data-price="18">
+      <div class="product-photo"><img src="clip-on-collar.jpg" alt="Personalised clip-on collar with name beads and charms"></div>
       <div class="product-info"><h3>Clip-On Collar</h3><div class="variant">One Size</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name">
@@ -342,6 +354,7 @@
     <div class="cat-header"><h2>Mum &amp; Dog Accessories</h2><div class="rule"></div></div>
 
     <div class="product" data-product="Mum Bracelet" data-variant="Gold" data-price="30">
+      <div class="product-photo"><img src="mum-bracelet.jpg" alt="Gold bangle bracelet with dachshund charm"></div>
       <div class="product-info"><h3>Mum Bracelet</h3><div class="variant">Gold</div></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
@@ -351,6 +364,7 @@
     </div>
 
     <div class="product" data-product="Beads Bracelet" data-variant="" data-price="15">
+      <div class="product-photo"><img src="beads-bracelet.jpg" alt="Colourful beaded bracelet with dog breed name beads"></div>
       <div class="product-info"><h3>Beads Bracelet</h3></div>
       <div class="pet-name-field">
         <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
@@ -359,23 +373,6 @@
       <div class="product-buy"><span class="price">€15</span><button class="add-btn">Add to Cart</button></div>
     </div>
 
-    <div class="product" data-product="Tote Bag" data-variant="" data-price="12">
-      <div class="product-info"><h3>Tote Bag</h3></div>
-      <div class="pet-name-field">
-        <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
-        <div class="err-msg">Please enter your pet's name</div>
-      </div>
-      <div class="product-buy"><span class="price">€12</span><button class="add-btn">Add to Cart</button></div>
-    </div>
-
-    <div class="product" data-product="Pre-Ordered T-Shirt" data-variant="" data-price="35">
-      <div class="product-info"><h3>Pre-Ordered T-Shirt</h3></div>
-      <div class="pet-name-field">
-        <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
-        <div class="err-msg">Please enter your pet's name</div>
-      </div>
-      <div class="product-buy"><span class="price">€35</span><button class="add-btn">Add to Cart</button></div>
-    </div>
   </section>
 
 </main>
