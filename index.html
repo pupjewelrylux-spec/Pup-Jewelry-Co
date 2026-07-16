@@ -161,6 +161,26 @@
   }
   footer .paw-row{ color:var(--gold); letter-spacing:.5em; margin-bottom:1rem; font-size:.8rem; }
 
+  /* ---------- Happy customers ---------- */
+  .happy-customers{ padding:4.5rem 1.5rem 3.5rem; text-align:center; }
+  .happy-customers h2{
+    font-family:'Dancing Script',cursive; font-weight:700;
+    font-size:clamp(1.9rem,4.5vw,2.7rem); color:var(--ink);
+  }
+  .happy-customers .rule{ width:60px; height:1px; background:var(--gold); margin:.9rem auto 2.6rem; }
+  .customer-grid{
+    max-width:760px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem;
+  }
+  .customer-grid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover;
+    border-radius:4px; border:1px solid var(--line);
+    display:block;
+  }
+  @media (max-width:560px){
+    .customer-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+
   /* ---------- Cart button ---------- */
   .cart-fab{
     position:fixed; right:1.4rem; bottom:1.4rem; z-index:20;
@@ -356,10 +376,6 @@
     <div class="product" data-product="Mum Bracelet" data-variant="Gold" data-price="30">
       <div class="product-photo"><img src="mum-bracelet.jpg" alt="Gold bangle bracelet with dachshund charm"></div>
       <div class="product-info"><h3>Mum Bracelet</h3><div class="variant">Gold</div></div>
-      <div class="pet-name-field">
-        <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
-        <div class="err-msg">Please enter your pet's name</div>
-      </div>
       <div class="product-buy"><span class="price">€30</span><button class="add-btn">Add to Cart</button></div>
     </div>
 
@@ -367,8 +383,8 @@
       <div class="product-photo"><img src="beads-bracelet.jpg" alt="Colourful beaded bracelet with dog breed name beads"></div>
       <div class="product-info"><h3>Beads Bracelet</h3></div>
       <div class="pet-name-field">
-        <input type="text" class="pet-name-input" placeholder="Pet's name (optional)" data-optional="true">
-        <div class="err-msg">Please enter your pet's name</div>
+        <input type="text" class="pet-name-input" placeholder="Pet's breed (optional)" data-optional="true" data-field-label="Breed">
+        <div class="err-msg">Please enter your pet's breed</div>
       </div>
       <div class="product-buy"><span class="price">€15</span><button class="add-btn">Add to Cart</button></div>
     </div>
@@ -383,6 +399,18 @@
     <div class="step"><div class="num">01</div><p>Add items to your cart, then enter your name, email, and pickup or delivery preference.</p></div>
     <div class="step"><div class="num">02</div><p>Open the cart and tap Checkout — it opens Revolut with your <strong>order total</strong>. Enter that exact amount to pay.</p></div>
     <div class="step"><div class="num">03</div><p>We'll get your order by email and reach out on Instagram if we need anything else.</p></div>
+  </div>
+</div>
+
+<div class="happy-customers">
+  <h2>Happy Customers</h2>
+  <div class="rule"></div>
+  <div class="customer-grid">
+    <img src="customer-1.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-2.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-3.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-4.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-5.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
   </div>
 </div>
 
@@ -438,6 +466,11 @@
           <div class="err-msg">Please enter your delivery address</div>
         </div>
       </div>
+
+      <div class="cd-field" style="margin-top:.9rem;">
+        <span class="cd-label">Special Requests (e.g. preferred colour)</span>
+        <textarea id="custNotes" placeholder="Any colour preference or notes for your order (optional)" rows="2" style="width:100%; font-family:'Jost',sans-serif; font-size:.88rem; padding:.5rem .2rem; background:transparent; border:none; border-bottom:1px solid var(--line); color:var(--ink); outline:none; resize:vertical;"></textarea>
+      </div>
     </div>
 
     <div class="subtotal-row" id="subtotalRow" style="display:none;">
@@ -487,6 +520,7 @@
   const custName = document.getElementById('custName');
   const custEmail = document.getElementById('custEmail');
   const custAddress = document.getElementById('custAddress');
+  const custNotes = document.getElementById('custNotes');
   const deliveryOptions = document.getElementById('deliveryOptions');
   const nameField = document.getElementById('nameField');
   const emailField = document.getElementById('emailField');
@@ -539,7 +573,7 @@
           <div class="cart-item-info">
             <h4>${item.product}</h4>
             ${item.variant ? `<div class="ci-variant">${item.variant}</div>` : ''}
-            ${item.petName ? `<div class="ci-pet">For: ${item.petName}</div>` : ''}
+            ${item.petName ? `<div class="ci-pet">${item.petLabel}: ${item.petName}</div>` : ''}
           </div>
           <div class="cart-item-right">
             <span class="ci-price">€${item.price}</span>
@@ -572,24 +606,29 @@
       const card = this.closest('.product');
       const nameField = card.querySelector('.pet-name-field');
       const nameInput = card.querySelector('.pet-name-input');
-      const isOptional = nameInput.dataset.optional === "true";
-      const petName = nameInput.value.trim();
+      let petName = '';
 
-      if(!petName && !isOptional){
-        nameField.classList.add('show-error');
-        nameInput.classList.add('error');
-        nameInput.focus();
-        return;
+      if(nameInput){
+        const isOptional = nameInput.dataset.optional === "true";
+        petName = nameInput.value.trim();
+
+        if(!petName && !isOptional){
+          nameField.classList.add('show-error');
+          nameInput.classList.add('error');
+          nameInput.focus();
+          return;
+        }
+        nameField.classList.remove('show-error');
+        nameInput.classList.remove('error');
       }
-      nameField.classList.remove('show-error');
-      nameInput.classList.remove('error');
 
       cart.push({
         id: ++cartIdCounter,
         product: card.dataset.product,
         variant: card.dataset.variant,
         price: Number(card.dataset.price),
-        petName: petName
+        petName: petName,
+        petLabel: nameInput ? (nameInput.dataset.fieldLabel || 'Pet') : ''
       });
       renderCart();
 
@@ -598,7 +637,7 @@
       this.classList.add('added');
       setTimeout(()=>{ this.textContent = original; this.classList.remove('added'); }, 1200);
 
-      nameInput.value = "";
+      if(nameInput) nameInput.value = "";
       openCart();
     });
   });
@@ -637,19 +676,22 @@
     const total = subtotal + shippingFee;
 
     const itemLines = cart.map(i =>
-      `${i.product}${i.variant ? ' (' + i.variant + ')' : ''} — €${i.price}${i.petName ? ' — Pet: ' + i.petName : ''}`
+      `${i.product}${i.variant ? ' (' + i.variant + ')' : ''} — €${i.price}${i.petName ? ' — ' + i.petLabel + ': ' + i.petName : ''}`
     ).join('\n');
 
     const fulfillmentLine = fulfillment === 'pickup'
       ? 'Pickup'
       : `Delivery — ${location === 'lu' ? 'Within Luxembourg' : 'Outside Luxembourg'}${addressVal ? '\nAddress: ' + addressVal : ''}`;
 
+    const notesVal = custNotes.value.trim();
+
     const orderSummary =
       `Customer: ${nameVal}\nEmail: ${emailVal}\nFulfillment: ${fulfillmentLine}\n\n` +
       `Items:\n${itemLines}\n\n` +
       `Subtotal: €${subtotal}` +
       (shippingFee > 0 ? `\nShipping: €${shippingFee}` : '') +
-      `\nTotal: €${total}`;
+      `\nTotal: €${total}` +
+      (notesVal ? `\n\nSpecial requests: ${notesVal}` : '');
 
     checkoutBtn.disabled = true;
     const originalLabel = checkoutBtn.textContent;
@@ -687,6 +729,7 @@
       custName.value = '';
       custEmail.value = '';
       custAddress.value = '';
+      custNotes.value = '';
       renderCart();
       closeCart();
     });
