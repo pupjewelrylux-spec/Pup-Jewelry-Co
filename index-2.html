@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pup Jewelry & Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root{
+    --cream:#F9F2E4;
+    --cream-deep:#F1E7D5;
+    --ink:#12191A;
+    --ink-soft:#4C5A59;
+    --gold:#A9834F;
+    --gold-soft:#D9C6A0;
+    --line:#C9BCA4;
+    --error:#B04A3C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .grain{
+    position:fixed; inset:0; pointer-events:none; opacity:.035; z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer; background:none;}
+
+  /* ---------- Hero ---------- */
+  header{
+    position:relative;
+    padding:5.5rem 1.5rem 4rem;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .logo-mark{ width:clamp(140px, 22vw, 200px); height:auto; margin:0 auto; display:block; }
+  .tagline{
+    font-family:'Dancing Script',cursive;
+    font-size:clamp(1.3rem,3vw,1.9rem);
+    color:var(--ink-soft);
+    margin-top:1rem;
+  }
+  .hero-sub{
+    margin-top:1.8rem; font-size:.92rem; letter-spacing:.08em;
+    color:var(--ink-soft); text-transform:uppercase;
+  }
+  .ig-pill{
+    display:inline-flex; align-items:center; gap:.5rem;
+    margin-top:1.6rem; padding:.55rem 1.3rem;
+    border:1px solid var(--ink); border-radius:999px;
+    font-size:.85rem; letter-spacing:.05em;
+    transition:background .2s ease, color .2s ease;
+  }
+  .ig-pill:hover{ background:var(--ink); color:var(--cream); }
+
+  /* ---------- Sections ---------- */
+  main{ position:relative; z-index:2; max-width:760px; margin:0 auto; padding:0 1.5rem; }
+  section.category{ padding:4rem 0 1rem; }
+  section.category:last-of-type{ padding-bottom:5rem; }
+
+  .cat-header{ text-align:center; margin-bottom:2.6rem; }
+  .cat-header h2{
+    font-family:'Dancing Script',cursive; font-weight:700;
+    font-size:clamp(1.9rem,4.5vw,2.7rem); color:var(--ink);
+  }
+  .cat-header .rule{ width:60px; height:1px; background:var(--gold); margin:.9rem auto 0; }
+
+  .product{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    gap:1rem 1.2rem; padding:1.5rem 0; border-bottom:1px solid var(--line);
+  }
+  section.category .product:first-of-type{ border-top:1px solid var(--line); }
+
+  .product-photo{
+    width:140px; height:140px; flex-shrink:0;
+    border-radius:4px; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .product-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .product-info{ flex:1 1 180px; }
+  .product-info h3{
+    font-family:'Playfair Display',serif; font-weight:600;
+    font-size:1.15rem; letter-spacing:.02em;
+  }
+  .product-info .variant{
+    font-size:.85rem; color:var(--ink-soft); font-style:italic; margin-top:.15rem;
+  }
+
+  .pet-name-field{ flex:1 1 160px; }
+  .pet-name-field input{
+    width:100%;
+    font-family:'Jost',sans-serif;
+    font-size:.88rem;
+    padding:.5rem .2rem;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  .pet-name-field input::placeholder{ color:#9C917E; }
+  .pet-name-field input:focus{ border-color:var(--gold); }
+  .pet-name-field input.error{ border-color:var(--error); }
+  .pet-name-field .err-msg{
+    display:none; font-size:.72rem; color:var(--error); margin-top:.3rem; letter-spacing:.02em;
+  }
+  .pet-name-field.show-error .err-msg{ display:block; }
+
+  .product-buy{ display:flex; align-items:center; gap:1.1rem; flex-shrink:0; }
+  .price{
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:1.15rem; min-width:2.6rem; text-align:right;
+  }
+  .add-btn{
+    display:inline-block; padding:.6rem 1.3rem;
+    background:var(--ink); color:var(--cream); border-radius:2px;
+    font-size:.8rem; letter-spacing:.09em; text-transform:uppercase;
+    white-space:nowrap; transition:background .2s ease, transform .2s ease;
+  }
+  .add-btn:hover{ background:var(--gold); transform:translateY(-1px); }
+  .add-btn.added{ background:var(--gold); }
+
+  @media (max-width:480px){
+    .product{ flex-direction:column; align-items:stretch; }
+    .product-buy{ width:100%; justify-content:space-between; }
+    .product-photo{ width:100%; height:280px; }
+  }
+
+  /* ---------- How to order ---------- */
+  .howto{
+    background:var(--cream-deep); border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line); padding:4rem 1.5rem; text-align:center;
+  }
+  .howto h2{
+    font-family:'Playfair Display',serif; font-size:1.5rem;
+    letter-spacing:.08em; margin-bottom:2.2rem;
+  }
+  .steps{ max-width:640px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; }
+  @media (max-width:600px){ .steps{ grid-template-columns:1fr; } }
+  .step .num{
+    font-family:'Playfair Display',serif; color:var(--gold);
+    font-size:1.6rem; font-weight:700; margin-bottom:.5rem;
+  }
+  .step p{ font-size:.9rem; color:var(--ink-soft); }
+
+  footer{
+    text-align:center; padding:3rem 1.5rem 3.5rem;
+    font-size:.8rem; color:var(--ink-soft); letter-spacing:.04em;
+  }
+  footer .paw-row{ color:var(--gold); letter-spacing:.5em; margin-bottom:1rem; font-size:.8rem; }
+
+  /* ---------- Happy customers ---------- */
+  .happy-customers{ padding:4.5rem 1.5rem 3.5rem; text-align:center; }
+  .happy-customers h2{
+    font-family:'Dancing Script',cursive; font-weight:700;
+    font-size:clamp(1.9rem,4.5vw,2.7rem); color:var(--ink);
+  }
+  .happy-customers .rule{ width:60px; height:1px; background:var(--gold); margin:.9rem auto 2.6rem; }
+  .customer-grid{
+    max-width:760px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem;
+  }
+  .customer-grid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover;
+    border-radius:4px; border:1px solid var(--line);
+    display:block;
+  }
+  @media (max-width:560px){
+    .customer-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+
+  /* ---------- Cart button ---------- */
+  .cart-fab{
+    position:fixed; right:1.4rem; bottom:1.4rem; z-index:20;
+    width:58px; height:58px; border-radius:50%;
+    background:var(--ink); color:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(18,25,26,.3);
+    transition:transform .2s ease;
+  }
+  .cart-fab:hover{ transform:translateY(-2px); }
+  .cart-fab svg{ width:24px; height:24px; }
+  .cart-badge{
+    position:absolute; top:-4px; right:-4px;
+    background:var(--gold); color:var(--ink);
+    font-size:.7rem; font-weight:700;
+    width:20px; height:20px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    display:none;
+  }
+  .cart-badge.show{ display:flex; }
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(18,25,26,.4);
+    z-index:29; opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .overlay.show{ opacity:1; pointer-events:auto; }
+
+  .cart-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(400px, 92vw);
+    background:var(--cream); z-index:30;
+    transform:translateX(100%); transition:transform .35s ease;
+    display:flex; flex-direction:column;
+    box-shadow:-8px 0 30px rgba(18,25,26,.15);
+  }
+  .cart-drawer.show{ transform:translateX(0); }
+
+  .cart-head{
+    padding:1.6rem 1.5rem 1.2rem; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .cart-head h2{ font-family:'Playfair Display',serif; font-size:1.4rem; letter-spacing:.05em; }
+  .cart-close{ font-size:1.4rem; line-height:1; color:var(--ink-soft); padding:.2rem; }
+
+  .cart-items{ flex:1; overflow-y:auto; padding:1rem 1.5rem; }
+  .cart-empty{ text-align:center; color:var(--ink-soft); font-size:.9rem; margin-top:2.5rem; }
+
+  .cart-item{
+    display:flex; justify-content:space-between; gap:.8rem;
+    padding:1rem 0; border-bottom:1px solid var(--line);
+  }
+  .cart-item-info h4{ font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; }
+  .cart-item-info .ci-variant{ font-size:.78rem; color:var(--ink-soft); font-style:italic; }
+  .cart-item-info .ci-pet{ font-size:.78rem; color:var(--gold); margin-top:.15rem; }
+  .cart-item-right{ display:flex; flex-direction:column; align-items:flex-end; gap:.4rem; flex-shrink:0; }
+  .cart-item-right .ci-price{ font-family:'Playfair Display',serif; font-weight:700; font-size:.95rem; }
+  .ci-remove{ font-size:.72rem; color:var(--error); letter-spacing:.03em; text-transform:uppercase; }
+
+  .cart-foot{ padding:1.4rem 1.5rem 1.8rem; border-top:1px solid var(--line); }
+
+  .customer-details{ margin-bottom:1.4rem; }
+  .cd-field{ margin-bottom:.9rem; }
+  .cd-field input[type="text"], .cd-field input[type="email"]{
+    width:100%; font-family:'Jost',sans-serif; font-size:.88rem;
+    padding:.5rem .2rem; background:transparent; border:none;
+    border-bottom:1px solid var(--line); color:var(--ink); outline:none;
+    transition:border-color .2s ease;
+  }
+  .cd-field input::placeholder{ color:#9C917E; }
+  .cd-field input:focus{ border-color:var(--gold); }
+  .cd-field input.error{ border-color:var(--error); }
+  .cd-field .err-msg{ display:none; font-size:.72rem; color:var(--error); margin-top:.3rem; }
+  .cd-field.show-error .err-msg{ display:block; }
+
+  .cd-label{
+    font-size:.72rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:.5rem; display:block;
+  }
+  .fulfill-group{ display:flex; gap:1.4rem; margin-bottom:.4rem; flex-wrap:wrap; }
+  .fulfill-group label{
+    display:flex; align-items:center; gap:.4rem; font-size:.85rem; cursor:pointer;
+  }
+  .fulfill-group input[type="radio"]{ accent-color:var(--gold); width:15px; height:15px; }
+
+  #deliveryOptions{ margin-top:.8rem; padding-left:.1rem; }
+  .shipping-note{ font-size:.75rem; color:var(--ink-soft); margin-top:.5rem; }
+
+  .cart-total-row.shipping-row span:last-child{ font-size:1.05rem; font-weight:600; }
+  .subtotal-row{
+    display:flex; justify-content:space-between; font-size:.85rem;
+    color:var(--ink-soft); margin-bottom:.35rem;
+  }
+  .cart-total-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:1rem; font-family:'Playfair Display',serif;
+  }
+  .cart-total-row span:first-child{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-family:'Jost',sans-serif; }
+  .cart-total-row span:last-child{ font-size:1.6rem; font-weight:700; }
+  .cart-hint{ font-size:.78rem; color:var(--ink-soft); margin-bottom:1rem; line-height:1.4; }
+
+  .checkout-steps{ margin-bottom:1.2rem; }
+  .cs-step{
+    display:flex; align-items:flex-start; gap:.6rem;
+    font-size:.78rem; color:var(--ink-soft); line-height:1.35;
+    margin-bottom:.55rem;
+  }
+  .cs-num{
+    flex-shrink:0; width:17px; height:17px; border-radius:50%;
+    background:var(--gold); color:var(--cream);
+    font-size:.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:.05rem;
+  }
+  .cs-step strong{ color:var(--ink); font-weight:600; }
+  .checkout-btn{
+    display:block; width:100%; padding:.9rem; text-align:center;
+    background:var(--ink); color:var(--cream); border-radius:2px;
+    font-size:.85rem; letter-spacing:.09em; text-transform:uppercase;
+    transition:background .2s ease;
+  }
+  .checkout-btn:hover{ background:var(--gold); }
+  .checkout-btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed; left:50%; bottom:1.6rem; transform:translateX(-50%) translateY(150%);
+    background:var(--ink); color:var(--cream); padding:.9rem 1.4rem; border-radius:4px;
+    font-size:.85rem; letter-spacing:.02em; z-index:40; transition:transform .35s ease;
+    max-width:90vw; text-align:center;
+  }
+  .toast.show{ transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <img class="logo-mark" src="logo.png" alt="Pup Jewelry & Co.">
+  <p class="tagline">Personalised collars &amp; accessories for the pup that has everything</p>
+  <p class="hero-sub">Made to order · Ships worldwide · Add items to your cart, then pay the total via Revolut</p>
+  <a class="ig-pill" href="https://www.instagram.com/pup_jewelry_co/" target="_blank" rel="noopener">
+    @pup_jewelry_co on Instagram
+  </a>
+</header>
+
+<main>
+
+  <section class="category" id="pawrl-collar">
+    <div class="cat-header"><h2>Personalised Pawrl Dog Collar</h2><div class="rule"></div></div>
+
+    <div class="product" data-product="Pawrl Collar" data-variant="XSmall Dog" data-price="18">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
+      <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">XSmall Dog</div></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's name">
+        <div class="err-msg">Please enter your pet's name</div>
+      </div>
+      <div class="product-buy"><span class="price">€18</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+    <div class="product" data-product="Pawrl Collar" data-variant="Small Dog" data-price="25">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
+      <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Small Dog</div></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's name">
+        <div class="err-msg">Please enter your pet's name</div>
+      </div>
+      <div class="product-buy"><span class="price">€25</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+    <div class="product" data-product="Pawrl Collar" data-variant="Medium Dog" data-price="30">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
+      <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Medium Dog</div></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's name">
+        <div class="err-msg">Please enter your pet's name</div>
+      </div>
+      <div class="product-buy"><span class="price">€30</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+    <div class="product" data-product="Pawrl Collar" data-variant="Large Dog" data-price="35">
+      <div class="product-photo"><img src="pawrl-collar.jpg" alt="Personalised Pawrl dog collar with name beads"></div>
+      <div class="product-info"><h3>Pawrl Collar</h3><div class="variant">Large Dog</div></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's name">
+        <div class="err-msg">Please enter your pet's name</div>
+      </div>
+      <div class="product-buy"><span class="price">€35</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+  </section>
+
+  <section class="category" id="clip-on">
+    <div class="cat-header"><h2>Personalised Clip-On Collar</h2><div class="rule"></div></div>
+    <div class="product" data-product="Clip-On Collar" data-variant="One Size" data-price="18">
+      <div class="product-photo"><img src="clip-on-collar.jpg" alt="Personalised clip-on collar with name beads and charms"></div>
+      <div class="product-info"><h3>Clip-On Collar</h3><div class="variant">One Size</div></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's name">
+        <div class="err-msg">Please enter your pet's name</div>
+      </div>
+      <div class="product-buy"><span class="price">€18</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+  </section>
+
+  <section class="category" id="mum-dog">
+    <div class="cat-header"><h2>Mum &amp; Dog Accessories</h2><div class="rule"></div></div>
+
+    <div class="product" data-product="Mum Bracelet" data-variant="Gold" data-price="30">
+      <div class="product-photo"><img src="mum-bracelet.jpg" alt="Gold bangle bracelet with dachshund charm"></div>
+      <div class="product-info"><h3>Mum Bracelet</h3><div class="variant">Gold</div></div>
+      <div class="product-buy"><span class="price">€30</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+    <div class="product" data-product="Beads Bracelet" data-variant="" data-price="15">
+      <div class="product-photo"><img src="beads-bracelet.jpg" alt="Colourful beaded bracelet with dog breed name beads"></div>
+      <div class="product-info"><h3>Beads Bracelet</h3></div>
+      <div class="pet-name-field">
+        <input type="text" class="pet-name-input" placeholder="Pet's breed (optional)" data-optional="true" data-field-label="Breed">
+        <div class="err-msg">Please enter your pet's breed</div>
+      </div>
+      <div class="product-buy"><span class="price">€15</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+  </section>
+
+</main>
+
+<div class="howto">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step"><div class="num">01</div><p>Add items to your cart, then enter your name, email, and pickup or delivery preference.</p></div>
+    <div class="step"><div class="num">02</div><p>Open the cart and tap Checkout — it opens Revolut with your <strong>order total</strong>. Enter that exact amount to pay.</p></div>
+    <div class="step"><div class="num">03</div><p>We'll get your order by email and reach out on Instagram if we need anything else.</p></div>
+  </div>
+</div>
+
+<div class="happy-customers">
+  <h2>Happy Canine</h2>
+  <div class="rule"></div>
+  <div class="customer-grid">
+    <img src="customer-1.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-2.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-3.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-4.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-5.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-6.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+  </div>
+</div>
+
+<footer>
+  <div class="paw-row">✦ ✦ ✦</div>
+  <p>Pup Jewelry &amp; Co. · Handmade &amp; personalised, made to order</p>
+</footer>
+
+<!-- Cart floating button -->
+<button class="cart-fab" id="cartFab" aria-label="Open cart">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h2>Your Order</h2>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Your cart is empty</p>
+  </div>
+  <div class="cart-foot">
+    <div class="customer-details">
+      <div class="cd-field" id="nameField">
+        <input type="text" id="custName" placeholder="Full name">
+        <div class="err-msg">Please enter your name</div>
+      </div>
+      <div class="cd-field" id="emailField">
+        <input type="email" id="custEmail" placeholder="Email address">
+        <div class="err-msg">Please enter a valid email</div>
+      </div>
+
+      <span class="cd-label">Pickup or Delivery?</span>
+      <div class="fulfill-group">
+        <label><input type="radio" name="fulfill" value="pickup" checked> Pickup</label>
+        <label><input type="radio" name="fulfill" value="delivery"> Delivery / Shipping</label>
+      </div>
+
+      <div id="deliveryOptions" style="display:none;">
+        <span class="cd-label">Delivery Location</span>
+        <div class="fulfill-group">
+          <label><input type="radio" name="location" value="lu" checked> Within Luxembourg</label>
+          <label><input type="radio" name="location" value="outside"> Outside Luxembourg (+€5)</label>
+        </div>
+        <div class="cd-field" id="addressField" style="margin-top:.7rem;">
+          <input type="text" id="custAddress" placeholder="Delivery address">
+          <div class="err-msg">Please enter your delivery address</div>
+        </div>
+      </div>
+
+      <div class="cd-field" style="margin-top:.9rem;">
+        <span class="cd-label">Special Requests (e.g. preferred colour)</span>
+        <textarea id="custNotes" placeholder="Any colour preference or notes for your order (optional)" rows="2" style="width:100%; font-family:'Jost',sans-serif; font-size:.88rem; padding:.5rem .2rem; background:transparent; border:none; border-bottom:1px solid var(--line); color:var(--ink); outline:none; resize:vertical;"></textarea>
+      </div>
+    </div>
+
+    <div class="subtotal-row" id="subtotalRow" style="display:none;">
+      <span>Subtotal</span><span id="subtotalAmount">€0</span>
+    </div>
+    <div class="subtotal-row" id="shippingFeeRow" style="display:none;">
+      <span>Shipping</span><span id="shippingFeeAmount">€5</span>
+    </div>
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal">€0</span></div>
+    <div class="checkout-steps">
+      <div class="cs-step"><span class="cs-num">1</span><span>Check your <strong>order &amp; total</strong> above are correct.</span></div>
+      <div class="cs-step"><span class="cs-num">2</span><span>Tap <strong>Checkout with Revolut</strong> — we receive your order automatically.</span></div>
+      <div class="cs-step"><span class="cs-num">3</span><span>A Revolut page opens — <strong>enter the total shown above</strong> and pay.</span></div>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>Checkout with Revolut</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* =========================================================
+     EMAILJS SETUP — replace these 3 values with your own
+     (free account at emailjs.com, connect your Gmail as the
+     "Email Service", then create a template — see README)
+     ========================================================= */
+  const EMAILJS_PUBLIC_KEY  = "krQ3f0TEssOkH8fKL";
+  const EMAILJS_SERVICE_ID  = "service_g1m4ja1";
+  const EMAILJS_TEMPLATE_ID = "template_qripvvj";
+  const SELLER_EMAIL = "Pup.jewelry.lux@gmail.com"; // used only as a backup if EmailJS fails
+  const REVOLUT_LINK = "https://revolut.me/s_gooljar";
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  let cart = [];
+  let cartIdCounter = 0;
+
+  const cartFab = document.getElementById('cartFab');
+  const cartBadge = document.getElementById('cartBadge');
+  const overlay = document.getElementById('overlay');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartClose = document.getElementById('cartClose');
+  const cartItemsEl = document.getElementById('cartItems');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const subtotalRow = document.getElementById('subtotalRow');
+  const subtotalAmount = document.getElementById('subtotalAmount');
+  const shippingFeeRow = document.getElementById('shippingFeeRow');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const toast = document.getElementById('toast');
+
+  const custName = document.getElementById('custName');
+  const custEmail = document.getElementById('custEmail');
+  const custAddress = document.getElementById('custAddress');
+  const custNotes = document.getElementById('custNotes');
+  const deliveryOptions = document.getElementById('deliveryOptions');
+  const nameField = document.getElementById('nameField');
+  const emailField = document.getElementById('emailField');
+  const addressField = document.getElementById('addressField');
+
+  document.querySelectorAll('input[name="fulfill"]').forEach(radio => {
+    radio.addEventListener('change', function(){
+      deliveryOptions.style.display = (this.value === 'delivery') ? 'block' : 'none';
+      renderCart();
+    });
+  });
+  document.querySelectorAll('input[name="location"]').forEach(radio => {
+    radio.addEventListener('change', renderCart);
+  });
+
+  function getFulfillment(){
+    return document.querySelector('input[name="fulfill"]:checked').value;
+  }
+  function getLocation(){
+    return document.querySelector('input[name="location"]:checked').value;
+  }
+  function getShippingFee(){
+    return (getFulfillment() === 'delivery' && getLocation() === 'outside') ? 5 : 0;
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 3500);
+  }
+
+  function openCart(){ overlay.classList.add('show'); cartDrawer.classList.add('show'); }
+  function closeCart(){ overlay.classList.remove('show'); cartDrawer.classList.remove('show'); }
+
+  cartFab.addEventListener('click', openCart);
+  cartClose.addEventListener('click', closeCart);
+  overlay.addEventListener('click', closeCart);
+
+  function renderCart(){
+    const count = cart.length;
+    cartBadge.textContent = count;
+    cartBadge.classList.toggle('show', count > 0);
+
+    if(count === 0){
+      cartItemsEl.innerHTML = '<p class="cart-empty">Your cart is empty</p>';
+      checkoutBtn.disabled = true;
+    } else {
+      cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <h4>${item.product}</h4>
+            ${item.variant ? `<div class="ci-variant">${item.variant}</div>` : ''}
+            ${item.petName ? `<div class="ci-pet">${item.petLabel}: ${item.petName}</div>` : ''}
+          </div>
+          <div class="cart-item-right">
+            <span class="ci-price">€${item.price}</span>
+            <button class="ci-remove" data-id="${item.id}">Remove</button>
+          </div>
+        </div>
+      `).join('');
+      checkoutBtn.disabled = false;
+
+      cartItemsEl.querySelectorAll('.ci-remove').forEach(btn => {
+        btn.addEventListener('click', function(){
+          cart = cart.filter(i => i.id !== Number(this.dataset.id));
+          renderCart();
+        });
+      });
+    }
+
+    const subtotal = cart.reduce((sum, i) => sum + i.price, 0);
+    const shippingFee = getShippingFee();
+    const total = subtotal + shippingFee;
+
+    subtotalRow.style.display = count > 0 ? 'flex' : 'none';
+    subtotalAmount.textContent = '€' + subtotal;
+    shippingFeeRow.style.display = (count > 0 && shippingFee > 0) ? 'flex' : 'none';
+    cartTotalEl.textContent = '€' + total;
+  }
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      const card = this.closest('.product');
+      const nameField = card.querySelector('.pet-name-field');
+      const nameInput = card.querySelector('.pet-name-input');
+      let petName = '';
+
+      if(nameInput){
+        const isOptional = nameInput.dataset.optional === "true";
+        petName = nameInput.value.trim();
+
+        if(!petName && !isOptional){
+          nameField.classList.add('show-error');
+          nameInput.classList.add('error');
+          nameInput.focus();
+          return;
+        }
+        nameField.classList.remove('show-error');
+        nameInput.classList.remove('error');
+      }
+
+      cart.push({
+        id: ++cartIdCounter,
+        product: card.dataset.product,
+        variant: card.dataset.variant,
+        price: Number(card.dataset.price),
+        petName: petName,
+        petLabel: nameInput ? (nameInput.dataset.fieldLabel || 'Pet') : ''
+      });
+      renderCart();
+
+      const original = this.textContent;
+      this.textContent = "Added ✓";
+      this.classList.add('added');
+      setTimeout(()=>{ this.textContent = original; this.classList.remove('added'); }, 1200);
+
+      if(nameInput) nameInput.value = "";
+      openCart();
+    });
+  });
+
+  checkoutBtn.addEventListener('click', function(){
+    if(cart.length === 0) return;
+
+    // ---- Validate customer details ----
+    let valid = true;
+
+    const nameVal = custName.value.trim();
+    nameField.classList.toggle('show-error', !nameVal);
+    custName.classList.toggle('error', !nameVal);
+    if(!nameVal) valid = false;
+
+    const emailVal = custEmail.value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+    emailField.classList.toggle('show-error', !emailOk);
+    custEmail.classList.toggle('error', !emailOk);
+    if(!emailOk) valid = false;
+
+    const fulfillment = getFulfillment();
+    const location = getLocation();
+    let addressVal = '';
+    if(fulfillment === 'delivery'){
+      addressVal = custAddress.value.trim();
+      addressField.classList.toggle('show-error', !addressVal);
+      custAddress.classList.toggle('error', !addressVal);
+      if(!addressVal) valid = false;
+    }
+
+    if(!valid) return;
+
+    const subtotal = cart.reduce((sum, i) => sum + i.price, 0);
+    const shippingFee = getShippingFee();
+    const total = subtotal + shippingFee;
+
+    const itemLines = cart.map(i =>
+      `${i.product}${i.variant ? ' (' + i.variant + ')' : ''} — €${i.price}${i.petName ? ' — ' + i.petLabel + ': ' + i.petName : ''}`
+    ).join('\n');
+
+    const fulfillmentLine = fulfillment === 'pickup'
+      ? 'Pickup'
+      : `Delivery — ${location === 'lu' ? 'Within Luxembourg' : 'Outside Luxembourg'}${addressVal ? '\nAddress: ' + addressVal : ''}`;
+
+    const notesVal = custNotes.value.trim();
+
+    const orderSummary =
+      `Customer: ${nameVal}\nEmail: ${emailVal}\nFulfillment: ${fulfillmentLine}\n\n` +
+      `Items:\n${itemLines}\n\n` +
+      `Subtotal: €${subtotal}` +
+      (shippingFee > 0 ? `\nShipping: €${shippingFee}` : '') +
+      `\nTotal: €${total}` +
+      (notesVal ? `\n\nSpecial requests: ${notesVal}` : '');
+
+    checkoutBtn.disabled = true;
+    const originalLabel = checkoutBtn.textContent;
+    checkoutBtn.textContent = "Sending order…";
+
+    // Backup #1: always copy the order to clipboard, so it's recoverable
+    // even if email fails and nobody notices right away.
+    const clipboardText = `PUP JEWELRY & CO. — ORDER\n${orderSummary}`;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(clipboardText).catch(()=>{});
+    }
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      order_summary: orderSummary,
+      total: '€' + total,
+      customer_name: nameVal,
+      customer_email: emailVal
+    }).then(function(){
+      showToast("Order sent! Enter €" + total + " on the Revolut page to pay.");
+    }).catch(function(err){
+      console.error("EmailJS error:", err);
+      // Backup #2: EmailJS failed — open the customer's own mail app,
+      // pre-addressed and pre-filled, so they can send the order themselves
+      // with one tap. This guarantees the order isn't silently lost.
+      const mailtoLink = "mailto:" + SELLER_EMAIL +
+        "?subject=" + encodeURIComponent("New order — Pup Jewelry & Co.") +
+        "&body=" + encodeURIComponent(orderSummary);
+      window.open(mailtoLink, '_blank');
+      showToast("Order copied — please send the order email that just opened, then pay €" + total + " on Revolut.");
+    }).finally(function(){
+      window.open(REVOLUT_LINK, '_blank');
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = originalLabel;
+      cart = [];
+      custName.value = '';
+      custEmail.value = '';
+      custAddress.value = '';
+      custNotes.value = '';
+      renderCart();
+      closeCart();
+    });
+  });
+
+  renderCart();
+</script>
+
+</body>
+</html>
