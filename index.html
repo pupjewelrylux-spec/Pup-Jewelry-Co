@@ -83,7 +83,7 @@
   section.category .product:first-of-type{ border-top:1px solid var(--line); }
 
   .product-photo{
-    width:64px; height:64px; flex-shrink:0;
+    width:96px; height:96px; flex-shrink:0;
     border-radius:4px; overflow:hidden;
     border:1px solid var(--line);
   }
@@ -136,6 +136,7 @@
   @media (max-width:480px){
     .product{ flex-direction:column; align-items:stretch; }
     .product-buy{ width:100%; justify-content:space-between; }
+    .product-photo{ width:100%; height:220px; }
   }
 
   /* ---------- How to order ---------- */
@@ -280,6 +281,21 @@
   .cart-total-row span:first-child{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-family:'Jost',sans-serif; }
   .cart-total-row span:last-child{ font-size:1.6rem; font-weight:700; }
   .cart-hint{ font-size:.78rem; color:var(--ink-soft); margin-bottom:1rem; line-height:1.4; }
+
+  .checkout-steps{ margin-bottom:1.2rem; }
+  .cs-step{
+    display:flex; align-items:flex-start; gap:.6rem;
+    font-size:.78rem; color:var(--ink-soft); line-height:1.35;
+    margin-bottom:.55rem;
+  }
+  .cs-num{
+    flex-shrink:0; width:17px; height:17px; border-radius:50%;
+    background:var(--gold); color:var(--cream);
+    font-size:.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:.05rem;
+  }
+  .cs-step strong{ color:var(--ink); font-weight:600; }
   .checkout-btn{
     display:block; width:100%; padding:.9rem; text-align:center;
     background:var(--ink); color:var(--cream); border-radius:2px;
@@ -403,7 +419,7 @@
 </div>
 
 <div class="happy-customers">
-  <h2>Happy Customers</h2>
+  <h2>Happy Canine</h2>
   <div class="rule"></div>
   <div class="customer-grid">
     <img src="customer-1.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
@@ -411,6 +427,7 @@
     <img src="customer-3.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
     <img src="customer-4.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
     <img src="customer-5.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
+    <img src="customer-6.jpg" alt="Dog wearing a personalised Pup Jewelry collar">
   </div>
 </div>
 
@@ -480,7 +497,11 @@
       <span>Shipping</span><span id="shippingFeeAmount">€5</span>
     </div>
     <div class="cart-total-row"><span>Total</span><span id="cartTotal">€0</span></div>
-    <p class="cart-hint">Tapping checkout opens Revolut — enter the total shown above to pay.</p>
+    <div class="checkout-steps">
+      <div class="cs-step"><span class="cs-num">1</span><span>Check your <strong>order &amp; total</strong> above are correct.</span></div>
+      <div class="cs-step"><span class="cs-num">2</span><span>Tap <strong>Checkout with Revolut</strong> — we receive your order automatically.</span></div>
+      <div class="cs-step"><span class="cs-num">3</span><span>A Revolut page opens — <strong>enter the total shown above</strong> and pay.</span></div>
+    </div>
     <button class="checkout-btn" id="checkoutBtn" disabled>Checkout with Revolut</button>
   </div>
 </div>
