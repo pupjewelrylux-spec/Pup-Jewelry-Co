@@ -76,6 +76,22 @@
   }
   .cat-header .rule{ width:60px; height:1px; background:var(--gold); margin:.9rem auto 0; }
 
+  .limited-badge{
+    display:inline-block; margin-top:.9rem;
+    padding:.3rem .9rem; border:1px solid var(--gold);
+    border-radius:999px; font-family:'Jost',sans-serif;
+    font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold); font-weight:600;
+  }
+
+  .limited-badge-sm{
+    display:inline-block; margin-left:.5rem; margin-top:-.15rem;
+    padding:.15rem .55rem; border:1px solid var(--gold);
+    border-radius:999px; font-family:'Jost',sans-serif;
+    font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--gold); font-weight:600; vertical-align:middle;
+  }
+
   .product{
     display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
     gap:1rem 1.2rem; padding:1.5rem 0; border-bottom:1px solid var(--line);
@@ -83,7 +99,7 @@
   section.category .product:first-of-type{ border-top:1px solid var(--line); }
 
   .product-photo{
-    width:96px; height:96px; flex-shrink:0;
+    width:140px; height:140px; flex-shrink:0;
     border-radius:4px; overflow:hidden;
     border:1px solid var(--line);
   }
@@ -136,7 +152,7 @@
   @media (max-width:480px){
     .product{ flex-direction:column; align-items:stretch; }
     .product-buy{ width:100%; justify-content:space-between; }
-    .product-photo{ width:100%; height:220px; }
+    .product-photo{ width:100%; height:auto; aspect-ratio:1/1; }
   }
 
   /* ---------- How to order ---------- */
@@ -391,7 +407,7 @@
 
     <div class="product" data-product="Mum Bracelet" data-variant="Gold" data-price="30">
       <div class="product-photo"><img src="mum-bracelet.jpg" alt="Gold bangle bracelet with dachshund charm"></div>
-      <div class="product-info"><h3>Mum Bracelet</h3><div class="variant">Gold</div></div>
+      <div class="product-info"><h3>Mum Bracelet <span class="limited-badge-sm">Limited Edition</span></h3><div class="variant">Gold</div></div>
       <div class="product-buy"><span class="price">€30</span><button class="add-btn">Add to Cart</button></div>
     </div>
 
@@ -405,6 +421,26 @@
       <div class="product-buy"><span class="price">€15</span><button class="add-btn">Add to Cart</button></div>
     </div>
 
+  </section>
+
+  <section class="category" id="treats">
+    <div class="cat-header">
+      <h2>Delicious Treats by Les Delices de Sacapuces</h2>
+      <div class="rule"></div>
+      <div class="limited-badge">Limited Edition</div>
+    </div>
+
+    <div class="product" data-product="Doxie Delights" data-variant="Single" data-price="2.25">
+      <div class="product-photo"><img src="doxie-single.jpg" alt="Doxie Delights dog treat, single unit"></div>
+      <div class="product-info"><h3>Doxie Delights</h3><div class="variant">Single</div></div>
+      <div class="product-buy"><span class="price">€2.25</span><button class="add-btn">Add to Cart</button></div>
+    </div>
+
+    <div class="product" data-product="Doxie Delights" data-variant="Pack of 4" data-price="6">
+      <div class="product-photo"><img src="doxie-pack.jpg" alt="Doxie Delights dog treats, pack of 4"></div>
+      <div class="product-info"><h3>Doxie Delights</h3><div class="variant">Pack of 4</div></div>
+      <div class="product-buy"><span class="price">€6</span><button class="add-btn">Add to Cart</button></div>
+    </div>
   </section>
 
 </main>
@@ -499,8 +535,9 @@
     <div class="cart-total-row"><span>Total</span><span id="cartTotal">€0</span></div>
     <div class="checkout-steps">
       <div class="cs-step"><span class="cs-num">1</span><span>Check your <strong>order &amp; total</strong> above are correct.</span></div>
-      <div class="cs-step"><span class="cs-num">2</span><span>Tap <strong>Checkout with Revolut</strong> — we receive your order automatically.</span></div>
-      <div class="cs-step"><span class="cs-num">3</span><span>A Revolut page opens — <strong>enter the total shown above</strong> and pay.</span></div>
+      <div class="cs-step"><span class="cs-num">2</span><span>Tap <strong>Checkout with Revolut</strong>. An email may open pre-filled with your order — <strong>please tap Send</strong> so we receive it.</span></div>
+      <div class="cs-step"><span class="cs-num">3</span><span>A Revolut page also opens — <strong>enter the total shown above</strong> and pay.</span></div>
+      <div class="cs-step"><span class="cs-num">4</span><span>Your order is only confirmed once <strong>both</strong> the email is sent and payment is made.</span></div>
     </div>
     <button class="checkout-btn" id="checkoutBtn" disabled>Checkout with Revolut</button>
   </div>
